@@ -10,9 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_21_195428) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_26_235418) do
   create_table "countries", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "post_comments", force: :cascade do |t|
+    t.string "comment"
+    t.integer "author_id"
+    t.integer "post_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.string "title"
+    t.string "body"
+    t.integer "student_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -35,6 +51,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_21_195428) do
     t.index ["user_id"], name: "index_user_country_roles_on_user_id"
   end
 
+  create_table "user_roles", force: :cascade do |t|
+    t.string "name"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_roles_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -44,4 +68,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_21_195428) do
   add_foreign_key "students", "countries"
   add_foreign_key "user_country_roles", "countries"
   add_foreign_key "user_country_roles", "users"
+  add_foreign_key "user_roles", "users"
 end
